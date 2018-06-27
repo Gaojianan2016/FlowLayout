@@ -67,7 +67,7 @@ public class FlowLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int count = getChildCount();
-        int x = getPaddingLeft(), y = getPaddingRight();
+        int x = 0, y = 0;
         int maxL = 0;
 
         for (int i = 0; i < count; i++) {
@@ -78,7 +78,7 @@ public class FlowLayout extends ViewGroup {
 
             maxL = Math.max(maxL, childH);
             if (x + childW > getMeasuredWidth()) {
-                x = getPaddingLeft();
+                x = 0;
                 y += maxL;
                 maxL = 0;
             }
