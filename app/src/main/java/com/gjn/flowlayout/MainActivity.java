@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //设置最大可选  超过数量范围将设置为-1 即可以无限选择
-        tl.setSelectMax(2);
+        tl.setSelectMax(1);
 
         tl.setOnSelectListener(new TagLayout.onSelectListener() {
             @Override

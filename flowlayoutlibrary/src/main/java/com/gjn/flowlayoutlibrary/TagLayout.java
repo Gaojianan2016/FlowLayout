@@ -31,6 +31,8 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
     private int selectMax = -1;
     //适配器
     private FlowAdapter adapter;
+    //是否限制点击
+    boolean isLimitClick;
 
     public TagLayout(@NonNull Context context) {
         this(context, null);
@@ -126,6 +128,14 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
         selectMax = count;
     }
 
+    public boolean isLimitClick() {
+        return isLimitClick;
+    }
+
+    public void setLimitClick(boolean limitClick) {
+        isLimitClick = limitClick;
+    }
+
     public void setOnSelectListener(TagLayout.onSelectListener onSelectListener) {
         this.onSelectListener = onSelectListener;
     }
@@ -140,12 +150,22 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
             return;
         }
         View view = viewList.get(index);
+
         if (selectMax > 0) {
             if (selectList.contains(view)) {
                 selectList.remove(view);
             }else {
                 if (selectList.size() < selectMax) {
                     selectList.add(view);
+                }else if (selectList.size() == selectMax) {
+                    if (!isLimitClick) {
+                        List<View> temp = new ArrayList<>();
+                        temp.addAll(selectList);
+                        temp.add(view);
+                        temp.remove(0);
+                        selectList.clear();
+                        selectList.addAll(temp);
+                    }
                 }
             }
         } else {
