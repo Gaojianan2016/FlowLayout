@@ -32,7 +32,9 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
     //适配器
     private FlowAdapter adapter;
     //是否限制点击
-    boolean isLimitClick;
+    private boolean isLimitClick;
+    //是否单选
+    private boolean isRadio;
 
     public TagLayout(@NonNull Context context) {
         this(context, null);
@@ -57,7 +59,7 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
         viewList.clear();
         textViewList.clear();
         selectList.clear();
-        if (adapter.getData() == null || adapter.getData().size() == 0) {
+        if (adapter.getData() == null || adapter.getCount() == 0) {
             Log.w(TAG, "adapter data is null.");
             return;
         }
@@ -82,9 +84,6 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
             @Override
             public void onClick(View v) {
                 selectIndex(i);
-                if (onItemListener != null) {
-                    onItemListener.onClick(i, view, adapter.getData().get(i));
-                }
             }
         });
     }
@@ -136,6 +135,10 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
         isLimitClick = limitClick;
     }
 
+    public void setRadio(boolean radio) {
+        isRadio = radio;
+    }
+
     public void setOnSelectListener(TagLayout.onSelectListener onSelectListener) {
         this.onSelectListener = onSelectListener;
     }
@@ -151,28 +154,39 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
         }
         View view = viewList.get(index);
 
-        if (selectMax > 0) {
-            if (selectList.contains(view)) {
-                selectList.remove(view);
-            }else {
-                if (selectList.size() < selectMax) {
-                    selectList.add(view);
-                }else if (selectList.size() == selectMax) {
-                    if (!isLimitClick) {
-                        List<View> temp = new ArrayList<>();
-                        temp.addAll(selectList);
-                        temp.add(view);
-                        temp.remove(0);
-                        selectList.clear();
-                        selectList.addAll(temp);
+        if (onItemListener != null) {
+            onItemListener.onClick(index, view, adapter.getItem(index));
+        }
+
+        if (isRadio) {
+            if (!selectList.contains(view)) {
+                selectList.clear();
+                selectList.add(view);
+            }
+        }else {
+            if (selectMax > 0) {
+                if (selectList.contains(view)) {
+                    selectList.remove(view);
+                }else {
+                    if (selectList.size() < selectMax) {
+                        selectList.add(view);
+                    }else if (selectList.size() == selectMax) {
+                        if (!isLimitClick) {
+                            List<View> temp = new ArrayList<>();
+                            temp.addAll(selectList);
+                            temp.add(view);
+                            temp.remove(0);
+                            selectList.clear();
+                            selectList.addAll(temp);
+                        }
                     }
                 }
-            }
-        } else {
-            if (selectList.contains(view)) {
-                selectList.remove(view);
-            }else {
-                selectList.add(view);
+            } else {
+                if (selectList.contains(view)) {
+                    selectList.remove(view);
+                }else {
+                    selectList.add(view);
+                }
             }
         }
         selectView();

@@ -16,18 +16,34 @@ public class MainActivity extends AppCompatActivity {
 
     private TagAdapter<String> adapter;
     private List<String> list = new ArrayList<>();
+    private TagLayout tl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TagLayout tl = findViewById(R.id.tl);
+        tl = findViewById(R.id.tl);
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 adapter.add("add " + adapter.getCount());
+            }
+        });
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tl.setRadio(true);
+            }
+        });
+
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tl.setRadio(false);
+
             }
         });
 
@@ -57,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //设置最大可选  超过数量范围将设置为-1 即可以无限选择
-        tl.setSelectMax(1);
+        tl.setSelectMax(3);
+        tl.selectIndex(0);
+        tl.setRadio(true);
 
         tl.setOnSelectListener(new TagLayout.onSelectListener() {
             @Override
