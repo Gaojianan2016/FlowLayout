@@ -9,7 +9,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.Gaojianan2016:FlowLayout:1.0.5'
+    implementation 'com.github.Gaojianan2016:FlowLayout:1.0.6'
 }
 ```
 
