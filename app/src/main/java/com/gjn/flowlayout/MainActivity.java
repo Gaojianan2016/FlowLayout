@@ -54,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(s);
                 return textView;
             }
+
+            @Override
+            public boolean isCanClick(int pos, String s) {
+                if (pos == 1) {
+                    return false;
+                }
+                return super.isCanClick(pos, s);
+            }
         };
 
         tl.setAdapter(adapter);

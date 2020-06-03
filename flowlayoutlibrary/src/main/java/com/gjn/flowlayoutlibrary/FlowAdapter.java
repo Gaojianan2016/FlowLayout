@@ -24,6 +24,11 @@ public abstract class FlowAdapter<T> {
     }
 
     public void setData(List<T> data) {
+        if (data == null) {
+            this.data.clear();
+            notifyData();
+            return;
+        }
         this.data.clear();
         add(data);
     }
@@ -70,6 +75,10 @@ public abstract class FlowAdapter<T> {
     public void change(int pos, T t){
         data.set(pos, t);
         notifyData();
+    }
+
+    public boolean isCanClick(int pos, T t){
+        return true;
     }
 
     public int getCount(){

@@ -17,6 +17,7 @@ import java.util.List;
 
 public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeListener {
     private static final String TAG = "TagLayout";
+
     //所有viewList
     private List<View> viewList = new ArrayList<>();
     //需要设置textviewList
@@ -156,6 +157,10 @@ public class TagLayout extends FlowLayout implements FlowAdapter.onDataChangeLis
 
         if (onItemListener != null) {
             onItemListener.onClick(index, view, adapter.getItem(index));
+        }
+
+        if (!adapter.isCanClick(index, adapter.getItem(index))) {
+            return;
         }
 
         if (isRadio) {
